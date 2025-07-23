@@ -51,23 +51,33 @@ if 'Date' in repeat_customers.columns:
 
 # Repeat Customer Trend
 st.subheader("🔁 Repeat Visit Trend")
-if 'Date' in repeat_customers.columns:
+
+if 'Date' in repeat_customers.columns and 'Mobile Number' in repeat_customers.columns:
+    repeat_customers = repeat_customers.dropna(subset=['Date'])
     repeat_customers['Visit Count'] = repeat_customers.groupby('Mobile Number').cumcount() + 1
-    visits_over_time = repeat_customers.groupby(repeat_customers['Date'].dt.to_period('M'))['Mobile Number'].nunique().reset_index()
+
+    repeat_customers['Month'] = repeat_customers['Date'].dt.to_period('M').astype(str)
+
+    visits_over_time = repeat_customers.groupby('Month')['Mobile Number'].nunique().reset_index()
     visits_over_time.columns = ['Month', 'Unique Repeat Customers']
-    visits_over_time['Month'] = visits_over_time['Month'].astype(str)
 
-    fig2 = px.bar(
-    visits_over_time,
-    x='Month',
-    y='Unique Repeat Customers',
-    color='Unique Repeat Customers',
-    color_continuous_scale='viridis',
-    title="📈 Unique Repeat Customers Over Time"
-)
-fig2.update_traces(marker_line_width=1.5)
-fig2.update_layout(template='plotly_white', hovermode='x unified')
-
+    if not visits_over_time.empty:
+        fig2 = px.bar(
+            visits_over_time,
+            x='Month',
+            y='Unique Repeat Customers',
+            color='Unique Repeat Customers',
+            title="📊 Monthly Repeat Customers",
+            text='Unique Repeat Customers',
+            color_continuous_scale='viridis'
+        )
+        fig2.update_traces(textposition='outside')
+        fig2.update_layout(template='plotly_white', xaxis_title="Month", yaxis_title="Customers")
+        st.plotly_chart(fig2, use_container_width=True)
+    else:
+        st.info("No repeat visit data available for the selected period.")
+else:
+    st.warning("Required columns ('Date' and 'Mobile Number') are missing from the dataset.")
 
 # SMS Campaign Activity
 st.subheader("💬 SMS Campaign Volume")
