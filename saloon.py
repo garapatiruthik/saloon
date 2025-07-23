@@ -98,4 +98,4 @@ filtered_clients = client_details[
 st.dataframe(filtered_clients, use_container_width=True)
 
 st.markdown("---")
-st.caption("🚀 Built with ❤️ for Naturals Bhimavaram • Real-Time Business Dashboard • Powered by Streamlit")
+st.caption("Built with ❤️ for Naturals Bhimavaram • Real-Time Business Dashboard • Powered by Ruthik Garapati")
