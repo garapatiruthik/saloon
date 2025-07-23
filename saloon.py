@@ -61,15 +61,13 @@ if 'Date' in repeat_customers.columns:
     visits_over_time,
     x='Month',
     y='Unique Repeat Customers',
-    animation_frame='Month',
-    range_y=[0, visits_over_time['Unique Repeat Customers'].max() + 10],
-    title="📊 Animated Repeat Customers by Month",
     color='Unique Repeat Customers',
     color_continuous_scale='viridis',
-    text='Unique Repeat Customers'
+    title="📈 Unique Repeat Customers Over Time"
 )
-fig2.update_traces(textposition='outside')
-fig2.update_layout(template='plotly_white', uniformtext_minsize=8, uniformtext_mode='hide')
+fig2.update_traces(marker_line_width=1.5)
+fig2.update_layout(template='plotly_white', hovermode='x unified')
+
 
 # SMS Campaign Activity
 st.subheader("💬 SMS Campaign Volume")
