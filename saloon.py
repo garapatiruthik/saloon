@@ -58,16 +58,18 @@ if 'Date' in repeat_customers.columns:
     visits_over_time['Month'] = visits_over_time['Month'].astype(str)
 
     fig2 = px.bar(
-        visits_over_time,
-        x='Month',
-        y='Unique Repeat Customers',
-        color='Unique Repeat Customers',
-        color_continuous_scale='viridis',
-        animation_frame='Month',
-        title="📈 Unique Repeat Customers Over Time"
-    )
-    fig2.update_layout(template='plotly_white')
-    st.plotly_chart(fig2, use_container_width=True)
+    visits_over_time,
+    x='Month',
+    y='Unique Repeat Customers',
+    animation_frame='Month',
+    range_y=[0, visits_over_time['Unique Repeat Customers'].max() + 10],
+    title="📊 Animated Repeat Customers by Month",
+    color='Unique Repeat Customers',
+    color_continuous_scale='viridis',
+    text='Unique Repeat Customers'
+)
+fig2.update_traces(textposition='outside')
+fig2.update_layout(template='plotly_white', uniformtext_minsize=8, uniformtext_mode='hide')
 
 # SMS Campaign Activity
 st.subheader("💬 SMS Campaign Volume")
